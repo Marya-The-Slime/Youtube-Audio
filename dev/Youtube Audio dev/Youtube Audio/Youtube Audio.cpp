@@ -4,15 +4,17 @@
 #include <cstdio>
 #include <windows.h>
 #include <sstream>
+#include <conio.h>
 
 using namespace std;
 
 //-------------------------------------------------- Global Variables --------------------------------------------------
 
-string Path_To_File = "Path.txt";
+string File_Name = "Path.txt";
 string Youtube_Link;
 
 ofstream File_To_Write;
+ifstream File_To_Read; 
 FILE* File_Path;
 
 int File_Size;
@@ -37,7 +39,7 @@ void Get_File_Size()
    }
    else
    {
-      File_To_Write.open(Path_To_File);
+      File_To_Write.open(File_Name);
       File_To_Write.close();
       Get_File_Size();
    }
@@ -50,7 +52,21 @@ void Set_Path()
 
    cout << "Enter path where you want see MP3: " << endl;
 
-   getline(cin, path_to_download);
+   while(true)
+   {
+      if (_kbhit())
+      {
+         int input = _getch();
+         if (input == 13)
+         {
+            break; 
+         }
+         else
+         {
+            getline(cin, path_to_download);
+         }
+      }
+   }
 
    File_To_Write << path_to_download;
 
@@ -59,14 +75,47 @@ void Set_Path()
    File_To_Write.close();
 }
 //--------------------------------------------------
+string Get_Path()
+{
+   File_To_Read.open(File_Name);
+
+   if (File_To_Read.is_open())
+   {
+      string path; 
+      while(getline(File_To_Read, path))
+      {
+      }
+      File_To_Read.close(); 
+      return path; 
+   }
+   else
+   {
+      cout << "Can't read file" << endl; 
+   }
+}
+//--------------------------------------------------
 void Check_Path()
 {// Check if file empty or user want rewrite path
 
-   File_To_Write.open(Path_To_File, 'a');
+   File_To_Write.open(File_Name, 'a');
+
+   char answer_check; 
+   string path = Get_Path(); 
 
    if (File_Size > 3)
    {
-      cout << "Path arleady set" << endl;
+      cout << "Your path: " << path << ", did you want change it? (Y/N)" << endl;
+      cin >> answer_check; 
+      cout << endl;
+
+      if (answer_check == 'Y' || answer_check == 'y')
+      {
+         Set_Path(); 
+      }
+      else
+      {
+         cout << "Okay." << endl;
+      }
 
       File_To_Write.close();
    }
@@ -83,20 +132,35 @@ void Check_Path()
    }
 }
 //--------------------------------------------------
+void Empty_File()
+{
+   File_To_Write.open(File_Name, ofstream::out | ofstream::trunc);
+
+   if (File_To_Write.is_open())
+   {
+      File_To_Write << "";
+   }
+
+   File_To_Write.close();
+
+   cout << "File was cleared" << endl;
+}
+//--------------------------------------------------
 void Set_Youtube_Link()
 {//Set link to youtube video from you want download audio
 
    cin >> Youtube_Link;
 
-   cout << endl << "You link: " << Youtube_Link;
+   cout  << "You link: " << Youtube_Link << endl;
 }
 //--------------------------------------------------
 int main()
 {
    Get_File_Size();
+
    Check_Path();
 
-   cout << "Enter link at youtube video: ";
+   cout << "Enter link at youtube video: " << endl;
 
    Set_Youtube_Link();
 
@@ -106,13 +170,6 @@ int main()
 
    system(start_link.c_str());
 }
-//--------------------------------------------------
-
-//--------------------------------------------------
-//string Get_Path()
-//{
-//
-//}
 //--------------------------------------------------
 
 
