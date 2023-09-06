@@ -1,3 +1,4 @@
 ﻿  Youtube Audio.cpp
-F:\C++\Projects\Youtube-Audio\dev\Youtube Audio dev\Youtube Audio\Youtube Audio.cpp(95): warning C4715: 'Get_Path': not all control paths return a value
+F:\C++\Projects\Youtube-Audio\dev\Youtube Audio dev\Youtube Audio\Youtube Audio.cpp(99,7): warning C4101: 'answer_check': unreferenced local variable
+F:\C++\Projects\Youtube-Audio\dev\Youtube Audio dev\Youtube Audio\Youtube Audio.cpp(92): warning C4715: 'Get_Path': not all control paths return a value
   Youtube Audio.vcxproj -> F:\C++\Projects\Youtube-Audio\dev\Youtube Audio dev\x64\Debug\Youtube Audio.exe
